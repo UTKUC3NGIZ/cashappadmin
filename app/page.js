@@ -41,7 +41,7 @@ export default function Login() {
           } else if (!password.trim()) {
             Alert.alert('Error', 'Please enter password!');
           } else {
-            Alert.alert('Error', 'Make sure you entered the right parameters!');
+            Alert.alert( 'Make sure you entered the right parameters!');
           }
         }
       );
