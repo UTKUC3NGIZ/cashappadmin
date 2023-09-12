@@ -96,8 +96,8 @@ export default function Transactions() {
     setProduct(emptyProduct);
     toast.current.show({
       severity: "success",
-      summary: "Successful",
-      detail: "Product Deleted",
+      summary: "Başarılı",
+      detail: "Kullanıcı İşlemi İptal Edildi",
       life: 3000,
     });
   };
@@ -143,8 +143,8 @@ export default function Transactions() {
     setSelectedProducts(null);
     toast.current.show({
       severity: "success",
-      summary: "Successful",
-      detail: "Products Deleted",
+      summary: "Başarılı",
+      detail: "Kullanıcı İşlemleri Başarıyla Silindi",
       life: 3000,
     });
   };
@@ -334,7 +334,7 @@ export default function Transactions() {
           />
           {product && (
             <span>
-              Silmek istediğine emin misin<b>{product.name}</b>?
+              İptal etmek istediğine emin misininiz ?
             </span>
           )}
         </div>
@@ -355,7 +355,7 @@ export default function Transactions() {
             style={{ fontSize: "2rem" }}
           />
           {product && (
-            <span>Seçilen ürünleri silmek istediğinizden emin misin?</span>
+            <span>Seçilen işlemleri iptal etmek istediğinize emin misiniz?</span>
           )}
         </div>
       </Dialog>

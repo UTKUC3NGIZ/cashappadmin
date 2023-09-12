@@ -54,7 +54,6 @@ export default function Transactions() {
     const newBakiye = product.bakiye + value2;
     const updatedProduct = { ...product, bakiye: newBakiye };
   
-    // products dizisindeki product'ı güncelleyin
     const updatedProducts = products.map((p) => {
       if (p.id === updatedProduct.id) {
         return updatedProduct;
@@ -68,8 +67,8 @@ export default function Transactions() {
   
     toast.current.show({
       severity: "success",
-      summary: "Successful",
-      detail: "Product Deleted",
+      summary: "Başarılı",
+      detail: "Bakiye Başarıyla Yüklendi",
       life: 3000,
     });
   };
