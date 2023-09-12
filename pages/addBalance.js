@@ -7,9 +7,9 @@ import { Button } from "primereact/button";
 import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { InputNumber } from 'primereact/inputnumber';
+import { InputNumber } from "primereact/inputnumber";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 import "../app/globals.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -41,21 +41,31 @@ export default function Transactions() {
     usersData.getProducts().then((data) => setProducts(data));
   }, []);
 
-  const hideDeleteProductDialog = () => {
+  const hideAddBalanceDialog = () => {
     setDeleteProductDialog(false);
   };
 
-  const confirmDeleteProduct = (product) => {
+  const confirmAddBalance = (product) => {
     setProduct(product);
     setDeleteProductDialog(true);
   };
 
-  const deleteProduct = () => {
-    let _products = products.filter((val) => val.id !== product.id);
-
-    setProducts(_products);
+  const addBalance = () => {
+    const newBakiye = product.bakiye + value2;
+    const updatedProduct = { ...product, bakiye: newBakiye };
+  
+    // products dizisindeki product'ı güncelleyin
+    const updatedProducts = products.map((p) => {
+      if (p.id === updatedProduct.id) {
+        return updatedProduct;
+      }
+      return p;
+    });
+  
+    setProducts(updatedProducts);
     setDeleteProductDialog(false);
     setProduct(emptyProduct);
+  
     toast.current.show({
       severity: "success",
       summary: "Successful",
@@ -63,18 +73,16 @@ export default function Transactions() {
       life: 3000,
     });
   };
-
   const middleToolbarTemplate = () => {
     return (
       <div className="flex flex-wrap gap-2">
-         <Link href="/transactions">
-         <Button
-          label="işlemler Dashboard"
-          icon="pi pi-money-bill"
-          severity="info"
-        />
-      </Link>
-       
+        <Link href="/transactions">
+          <Button
+            label="işlemler Dashboard"
+            icon="pi pi-money-bill"
+            severity="info"
+          />
+        </Link>
       </div>
     );
   };
@@ -87,7 +95,7 @@ export default function Transactions() {
           rounded
           outlined
           severity="success"
-          onClick={() => confirmDeleteProduct(rowData)}
+          onClick={() => confirmAddBalance(rowData)}
         />
       </React.Fragment>
     );
@@ -112,26 +120,22 @@ export default function Transactions() {
         label="Vazgeç"
         icon="pi pi-times"
         outlined
-        onClick={hideDeleteProductDialog}
+        onClick={hideAddBalanceDialog}
       />
       <Button
         label="Yükle"
         icon="pi pi-check"
         severity="success"
-        onClick={deleteProduct}
+        onClick={addBalance}
       />
     </React.Fragment>
   );
-
 
   return (
     <div>
       <Toast ref={toast} />
       <div className="card">
-        <Toolbar
-          className="mb-4"
-          center={middleToolbarTemplate}
-        ></Toolbar>
+        <Toolbar className="mb-4" center={middleToolbarTemplate}></Toolbar>
 
         <DataTable
           ref={dt}
@@ -175,21 +179,30 @@ export default function Transactions() {
         header="Yükleme"
         modal
         footer={addUserBalance}
-        onHide={hideDeleteProductDialog}
+        onHide={hideAddBalanceDialog}
       >
         <span className="block text-center text-2xl mb-3">{product.users}</span>
         <div className="confirmation-content">
           {product && (
             <div className="flex-auto text-center">
-            <InputNumber inputId="horizontal-buttons" value={value2} onValueChange={(e) => setValue2(e.value)} showButtons buttonLayout="horizontal" step={10}
-                decrementButtonClassName="p-button-danger" incrementButtonClassName="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"
-                mode="currency" currency="TRY" />
-        </div>
+              <InputNumber
+                inputId="horizontal-buttons"
+                value={value2}
+                onValueChange={(e) => setValue2(e.value)}
+                showButtons
+                buttonLayout="horizontal"
+                step={10}
+                decrementButtonClassName="p-button-danger"
+                incrementButtonClassName="p-button-success"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                mode="currency"
+                currency="TRY"
+              />
+            </div>
           )}
         </div>
       </Dialog>
-
-
     </div>
   );
 }
