@@ -1,4 +1,4 @@
-export const ProductService = {
+export const TransactionsData = {
     getProductsData() {
         return [
             {
@@ -56,4 +56,37 @@ export const ProductService = {
         return Promise.resolve(this.getProductsWithOrdersData());
     }
 };
+export const usersData = {
+    getProductsData() {
+        return [
+            {
+                users: 'Utku Cengiz',
+                bakiye:300,
+            }
+        ];
+    },
+
+    getProductsMini() {
+        return Promise.resolve(this.getProductsData().slice(0, 5));
+    },
+
+    getProductsSmall() {
+        return Promise.resolve(this.getProductsData().slice(0, 10));
+    },
+
+    getProducts() {
+        return Promise.resolve(this.getProductsData());
+    },
+
+    getProductsWithOrdersSmall() {
+        return Promise.resolve(this.getProductsWithOrdersData().slice(0, 10));
+    },
+
+    getProductsWithOrders() {
+        return Promise.resolve(this.getProductsWithOrdersData());
+    }
+};
+
+
+
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { ProductService } from "../data/Data";
+import { TransactionsData } from "../data/Data";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
-import { Rating } from "primereact/rating";
 import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
+import Link from 'next/link';
 
 import "../app/globals.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -37,7 +37,7 @@ export default function Transactions() {
   const dt = useRef(null);
 
   useEffect(() => {
-    ProductService.getProducts().then((data) => setProducts(data));
+    TransactionsData.getProducts().then((data) => setProducts(data));
   }, []);
 
   const hideDeleteProductDialog = () => {
@@ -163,6 +163,20 @@ export default function Transactions() {
     );
   };
 
+  const middleToolbarTemplate = () => {
+    return (
+      <div className="flex flex-wrap gap-2">
+         <Link href="/addBalance">
+         <Button
+          label="Bakiye Dashboard"
+          icon="pi pi-money-bill"
+          severity="info"
+        />
+      </Link>
+       
+      </div>
+    );
+  };
   const rightToolbarTemplate = () => {
     return (
       <Button
@@ -242,6 +256,7 @@ export default function Transactions() {
           className="mb-4"
           left={leftToolbarTemplate}
           right={rightToolbarTemplate}
+          center={middleToolbarTemplate}
         ></Toolbar>
 
         <DataTable
