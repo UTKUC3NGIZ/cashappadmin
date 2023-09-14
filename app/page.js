@@ -7,8 +7,9 @@ import "primeflex/primeflex.css";
 import Login from "@/pages/Login";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import AddBalance from "@/pages/AddBalance";
-import Transactions from "@/pages/Transactions";
+import AddBalance from "@/pages/addBalance";
+import Transactions from "@/pages/transactions";
+
 
 export default function Main() {
   const [token, setToken] = useState("");
