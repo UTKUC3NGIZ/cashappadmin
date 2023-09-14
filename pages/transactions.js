@@ -109,7 +109,7 @@ export default function Transactions() {
   const middleToolbarTemplate = () => {
     return (
       <div className="flex flex-wrap gap-2">
-         <Link href="/addBalance">
+         <Link href="/AddBalance">
          <Button
           label="Bakiye Dashboard"
           icon="pi pi-money-bill"

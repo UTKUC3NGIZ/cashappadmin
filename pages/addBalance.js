@@ -16,7 +16,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-export default function AddBalance() {
+export default function AddBalance({ userList, isLoggedIn }) {
   let emptyProduct = {
     id: null,
     name: "",
@@ -38,9 +38,14 @@ export default function AddBalance() {
   const dt = useRef(null);
   const [value2, setValue2] = useState(50);
   useEffect(() => {
-    usersData.getProducts().then((data) => setProducts(data));
-  }, []);
+    async function fetchData() {
+      const data = await usersData.getProducts({ userList });
+      setProducts(data);
+    }
 
+    fetchData();
+  }, [userList]);
+console.log(products)
   const hideAddBalanceDialog = () => {
     setDeleteProductDialog(false);
   };
@@ -51,10 +56,10 @@ export default function AddBalance() {
   };
 
   const addBalance = () => {
-    const newBalance = product.bakiye + value2;
+    const newBalance = product.amount + value2;
     const updatedProducts = products.map((p) => {
       if (p.users === product.users) {
-        return { ...p, bakiye: newBalance };
+        return { ...p, amount: newBalance };
       }
       return p;
     });
@@ -74,7 +79,7 @@ export default function AddBalance() {
   const middleToolbarTemplate = () => {
     return (
       <div className="flex flex-wrap gap-2">
-        <Link href="/transactions">
+        <Link href="/Transactions">
           <Button
             label="işlemler Dashboard"
             icon="pi pi-money-bill"
@@ -128,45 +133,48 @@ export default function AddBalance() {
       />
     </React.Fragment>
   );
-
   return (
     <div>
       <Toast ref={toast} />
       <div className="card">
         <Toolbar className="mb-4" center={middleToolbarTemplate}></Toolbar>
 
-        <DataTable
-          ref={dt}
-          value={products}
-          selection={selectedProducts}
-          onSelectionChange={(e) => setSelectedProducts(e.value)}
-          dataKey="id"
-          paginator
-          rows={10}
-          rowsPerPageOptions={[5, 10, 25]}
-          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-          currentPageReportTemplate="{totalRecords} üründen {first} ile {last} arası gösteriliyor"
-          globalFilter={globalFilter}
-          header={header}
-        >
-          <Column
-            field="users"
-            header="Kullanıcı"
-            sortable
-            style={{ minWidth: "12rem" }}
-          ></Column>
-          <Column
-            field="bakiye"
-            header="Bakiye"
-            sortable
-            style={{ minWidth: "16rem" }}
-          ></Column>
-          <Column
-            body={actionBodyTemplate}
-            exportable={false}
-            style={{ minWidth: "12rem" }}
-          ></Column>
-        </DataTable>
+        {products ? (
+          <DataTable
+            ref={dt}
+            value={products}
+            selection={selectedProducts}
+            onSelectionChange={(e) => setSelectedProducts(e.value)}
+            dataKey="id"
+            paginator
+            rows={10}
+            rowsPerPageOptions={[5, 10, 25]}
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            currentPageReportTemplate="{totalRecords} üründen {first} ile {last} arası gösteriliyor"
+            globalFilter={globalFilter}
+            header={header}
+          >
+            <Column
+              field="users"
+              header="Kullanıcı"
+              sortable
+              style={{ minWidth: "12rem" }}
+            ></Column>
+            <Column
+              field="amount"
+              header="amount"
+              sortable
+              style={{ minWidth: "16rem" }}
+            ></Column>
+            <Column
+              body={actionBodyTemplate}
+              exportable={false}
+              style={{ minWidth: "12rem" }}
+            ></Column>
+          </DataTable>
+        ) : (
+          <p>Veriler yükleniyor...</p>
+        )}
       </div>
 
       <Dialog

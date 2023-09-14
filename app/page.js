@@ -24,19 +24,22 @@ export default function Main() {
           },
         })
         .then((response) => {
-          setUserList((prevUserList) => [...prevUserList, response.data]);
+          setUserList(response.data);
           setIsLoggedIn(true);
         })
         .catch((error) => {
           console.error("Veri çekme hatası:", error);
+          setIsLoggedIn(false);
         });
+    } else {
       setIsLoggedIn(false);
     }
   }, [token]);
+console.log(userList)
   return (
     <>
       {isLoggedIn ? (
-        <AddBalance userList={userList} />
+        <AddBalance userList={userList} isLoggedIn={isLoggedIn} />
       ) : (
         <Login setToken={setToken} />
       )}
