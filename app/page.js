@@ -4,12 +4,11 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
-import Login from "@/pages/Login";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AddBalance from "@/pages/addBalance";
 import Transactions from "@/pages/transactions";
-
+import Login from "@/pages/login";
 
 export default function Main() {
   const [token, setToken] = useState("");
@@ -60,8 +59,16 @@ export default function Main() {
     <>
       {isLoggedIn ? (
         <div>
-          <AddBalance userList={userList} isLoggedIn={isLoggedIn} />
-          <Transactions isLoggedIn={isLoggedIn} transfers={transfers} />
+          <AddBalance
+            userList={userList}
+            isLoggedIn={isLoggedIn}
+            token={token}
+          />
+          <Transactions
+            isLoggedIn={isLoggedIn}
+            transfers={transfers}
+            token={token}
+          />
         </div>
       ) : (
         <Login setToken={setToken} />

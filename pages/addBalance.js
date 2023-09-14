@@ -8,6 +8,7 @@ import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
+import axios from "axios";
 
 import Link from "next/link";
 
@@ -16,7 +17,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-export default function AddBalance({ userList, isLoggedIn }) {
+export default function AddBalance({ userList, isLoggedIn, token }) {
   let emptyProduct = {
     id: null,
     name: "",
