@@ -54,7 +54,6 @@ export default function Main() {
         });
     }
   }, [token]);
-  console.log(transfers)
 
   return (
     <>
