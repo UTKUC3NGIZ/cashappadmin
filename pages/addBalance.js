@@ -45,7 +45,7 @@ export default function AddBalance({ userList, isLoggedIn }) {
 
     fetchData();
   }, [userList]);
-console.log(products)
+  console.log(products);
   const hideAddBalanceDialog = () => {
     setDeleteProductDialog(false);
   };
@@ -111,12 +111,18 @@ console.log(products)
         <i className="pi pi-search" />
         <InputText
           type="search"
+          value={globalFilter || ""} // Use globalFilter or an empty string as the value
           onInput={(e) => setGlobalFilter(e.target.value)}
           placeholder="Ara..."
         />
       </span>
     </div>
   );
+
+  const clearGlobalFilter = () => {
+    setGlobalFilter(null); // Reset the globalFilter to null
+  };
+
   const addUserBalance = (
     <React.Fragment>
       <Button
@@ -153,6 +159,7 @@ console.log(products)
             currentPageReportTemplate="{totalRecords} üründen {first} ile {last} arası gösteriliyor"
             globalFilter={globalFilter}
             header={header}
+            onFilter={() => clearGlobalFilter()} // Clear filter when filtering is done
           >
             <Column
               field="users"
