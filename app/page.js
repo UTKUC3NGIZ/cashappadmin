@@ -8,10 +8,12 @@ import Login from "@/pages/Login";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AddBalance from "@/pages/AddBalance";
+import Transactions from "@/pages/Transactions";
 
 export default function Main() {
   const [token, setToken] = useState("");
   const [userList, setUserList] = useState([]);
+  const [transfers, setTransfers] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // users data
@@ -35,11 +37,32 @@ export default function Main() {
       setIsLoggedIn(false);
     }
   }, [token]);
-console.log(userList)
+  // user transactions data
+  useEffect(() => {
+    if (token) {
+      axios
+        .get("https://mobil-bank-production.up.railway.app/transfers", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setTransfers(response.data);
+        })
+        .catch((error) => {
+          console.error("Veri çekme hatası:", error);
+        });
+    }
+  }, [token]);
+  console.log(transfers)
+
   return (
     <>
       {isLoggedIn ? (
-        <AddBalance userList={userList} isLoggedIn={isLoggedIn} />
+        <div>
+          <AddBalance userList={userList} isLoggedIn={isLoggedIn} />
+          <Transactions isLoggedIn={isLoggedIn} transfers={transfers} />
+        </div>
       ) : (
         <Login setToken={setToken} />
       )}

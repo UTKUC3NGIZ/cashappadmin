@@ -45,7 +45,6 @@ export default function AddBalance({ userList, isLoggedIn }) {
 
     fetchData();
   }, [userList]);
-  console.log(products);
   const hideAddBalanceDialog = () => {
     setDeleteProductDialog(false);
   };
@@ -103,7 +102,6 @@ export default function AddBalance({ userList, isLoggedIn }) {
       </React.Fragment>
     );
   };
-
   const header = (
     <div className="flex flex-wrap gap-2 items-center justify-between">
       <h4 className="m-0">Kullanıcı Para Ekleme Paneli</h4>

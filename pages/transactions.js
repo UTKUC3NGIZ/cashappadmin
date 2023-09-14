@@ -7,14 +7,13 @@ import { Button } from "primereact/button";
 import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import Link from 'next/link';
+import Link from "next/link";
 
 import "../app/globals.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-export default function Transactions() {
   let emptyProduct = {
     id: null,
     name: "",
@@ -37,8 +36,13 @@ export default function Transactions() {
   const dt = useRef(null);
 
   useEffect(() => {
-    TransactionsData.getProducts().then((data) => setProducts(data));
-  }, []);
+    async function fetchData() {
+      const data = await TransactionsData.getProducts({ transfers });
+      setProducts(data);
+    }
+
+    fetchData();
+  }, [transfers]);
 
   const hideDeleteProductDialog = () => {
     setDeleteProductDialog(false);
@@ -48,15 +52,18 @@ export default function Transactions() {
     setDeleteProductsDialog(false);
   };
 
-
   const confirmDeleteProduct = (product) => {
     setProduct(product);
     setDeleteProductDialog(true);
   };
 
   const deleteProduct = () => {
-    const updatedProducts = products.filter((val) => val.paraGonderen !== product.paraGonderen || val.parayiAlan !== product.parayiAlan);
-  
+    const updatedProducts = products.filter(
+      (val) =>
+        val.paraGonderen !== product.paraGonderen ||
+        val.parayiAlan !== product.parayiAlan
+    );
+
     setProducts(updatedProducts);
     setDeleteProductDialog(false);
     setProduct(emptyProduct);
@@ -67,8 +74,6 @@ export default function Transactions() {
       life: 3000,
     });
   };
-  
-
 
   const exportCSV = () => {
     dt.current.exportCSV();
@@ -109,14 +114,13 @@ export default function Transactions() {
   const middleToolbarTemplate = () => {
     return (
       <div className="flex flex-wrap gap-2">
-         <Link href="/AddBalance">
-         <Button
-          label="Bakiye Dashboard"
-          icon="pi pi-money-bill"
-          severity="info"
-        />
-      </Link>
-       
+        <Link href="/AddBalance">
+          <Button
+            label="Bakiye Dashboard"
+            icon="pi pi-money-bill"
+            severity="info"
+          />
+        </Link>
       </div>
     );
   };
@@ -190,7 +194,6 @@ export default function Transactions() {
       />
     </React.Fragment>
   );
-
   return (
     <div>
       <Toast ref={toast} />
@@ -275,11 +278,7 @@ export default function Transactions() {
             className="pi pi-exclamation-triangle mr-3"
             style={{ fontSize: "2rem" }}
           />
-          {product && (
-            <span>
-              İptal etmek istediğine emin misininiz ?
-            </span>
-          )}
+          {product && <span>İptal etmek istediğine emin misininiz ?</span>}
         </div>
       </Dialog>
 
@@ -298,7 +297,9 @@ export default function Transactions() {
             style={{ fontSize: "2rem" }}
           />
           {product && (
-            <span>Seçilen işlemleri iptal etmek istediğinize emin misiniz?</span>
+            <span>
+              Seçilen işlemleri iptal etmek istediğinize emin misiniz?
+            </span>
           )}
         </div>
       </Dialog>
