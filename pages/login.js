@@ -10,11 +10,10 @@ import "primeflex/primeflex.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function Login() {
+export default function Login({ setToken }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [token, setToken] = useState("");
+
   //   login admin
   const handlePress = () => {
     axios
@@ -28,7 +27,7 @@ export default function Login() {
           localStorage.setItem("userToken", response.data.token);
           if (response.data.token) {
             setToken(response.data.token);
-            navigation.navigate("addBalance");
+            // navigation.navigate("addBalance");
           }
         },
 
@@ -44,24 +43,6 @@ export default function Login() {
         }
       );
   };
-
-  // users data
-  useEffect(() => {
-    if (token) {
-      axios
-        .get("https://mobil-bank-production.up.railway.app/users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setUserList((prevUserList) => [...prevUserList, response.data]);
-        })
-        .catch((error) => {
-          console.error("Veri çekme hatası:", error);
-        });
-    }
-  }, [token]);
 
   return (
     <div className="flex align-items-center justify-content-center h-screen">

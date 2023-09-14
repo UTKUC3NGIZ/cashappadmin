@@ -16,7 +16,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-export default function Transactions() {
+export default function AddBalance() {
   let emptyProduct = {
     id: null,
     name: "",
