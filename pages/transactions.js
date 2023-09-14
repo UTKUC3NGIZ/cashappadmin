@@ -48,40 +48,6 @@ export default function Transactions() {
     setDeleteProductsDialog(false);
   };
 
-  const saveProduct = () => {
-    setSubmitted(true);
-
-    if (product.name.trim()) {
-      let _products = [...products];
-      let _product = { ...product };
-
-      if (product.id) {
-        const index = findIndexById(product.id);
-
-        _products[index] = _product;
-        toast.current.show({
-          severity: "success",
-          summary: "Successful",
-          detail: "Product Updated",
-          life: 3000,
-        });
-      } else {
-        _product.id = createId();
-        _product.image = "product-placeholder.svg";
-        _products.push(_product);
-        toast.current.show({
-          severity: "success",
-          summary: "Successful",
-          detail: "Product Created",
-          life: 3000,
-        });
-      }
-
-      setProducts(_products);
-      setProductDialog(false);
-      setProduct(emptyProduct);
-    }
-  };
 
   const confirmDeleteProduct = (product) => {
     setProduct(product);
@@ -89,9 +55,9 @@ export default function Transactions() {
   };
 
   const deleteProduct = () => {
-    let _products = products.filter((val) => val.id !== product.id);
-
-    setProducts(_products);
+    const updatedProducts = products.filter((val) => val.paraGonderen !== product.paraGonderen || val.parayiAlan !== product.parayiAlan);
+  
+    setProducts(updatedProducts);
     setDeleteProductDialog(false);
     setProduct(emptyProduct);
     toast.current.show({
@@ -101,31 +67,8 @@ export default function Transactions() {
       life: 3000,
     });
   };
+  
 
-  const findIndexById = (id) => {
-    let index = -1;
-
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-
-    return index;
-  };
-
-  const createId = () => {
-    let id = "";
-    let chars =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (let i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
-    return id;
-  };
 
   const exportCSV = () => {
     dt.current.exportCSV();

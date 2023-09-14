@@ -51,12 +51,10 @@ export default function Transactions() {
   };
 
   const addBalance = () => {
-    const newBakiye = product.bakiye + value2;
-    const updatedProduct = { ...product, bakiye: newBakiye };
-  
+    const newBalance = product.bakiye + value2;
     const updatedProducts = products.map((p) => {
-      if (p.id === updatedProduct.id) {
-        return updatedProduct;
+      if (p.users === product.users) {
+        return { ...p, bakiye: newBalance };
       }
       return p;
     });
@@ -72,6 +70,7 @@ export default function Transactions() {
       life: 3000,
     });
   };
+  
   const middleToolbarTemplate = () => {
     return (
       <div className="flex flex-wrap gap-2">
