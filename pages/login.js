@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import "./globals.css";
+import "../app/globals.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -15,6 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [userList, setUserList] = useState([]);
   const [token, setToken] = useState("");
+  //   login admin
   const handlePress = () => {
     axios
       .post("https://mobil-bank-production.up.railway.app/auth/login", {
@@ -25,11 +26,9 @@ export default function Login() {
       .then(
         (response) => {
           localStorage.setItem("userToken", response.data.token);
-          console.log(response.data.token);
-
           if (response.data.token) {
             setToken(response.data.token);
-            // navigation.navigate("addBalance");
+            navigation.navigate("addBalance");
           }
         },
 
