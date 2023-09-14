@@ -159,7 +159,7 @@ export default function AddBalance({ userList, isLoggedIn, token }) {
     <div>
       <Toast ref={toast} />
       <div className="card">
-        <Toolbar className="mb-4" center={middleToolbarTemplate}></Toolbar>
+        <Toolbar className="mb-4" left={middleToolbarTemplate}></Toolbar>
 
         {products ? (
           <DataTable

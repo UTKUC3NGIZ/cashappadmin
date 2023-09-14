@@ -14,7 +14,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-export default function Transactions({isLoggedIn, transfers}) {
+export default function Transactions({ isLoggedIn, transfers }) {
   let emptyProduct = {
     id: null,
     name: "",
@@ -80,10 +80,6 @@ export default function Transactions({isLoggedIn, transfers}) {
     dt.current.exportCSV();
   };
 
-  const confirmDeleteSelected = () => {
-    setDeleteProductsDialog(true);
-  };
-
   const deleteSelectedProducts = () => {
     let _products = products.filter((val) => !selectedProducts.includes(val));
 
@@ -96,20 +92,6 @@ export default function Transactions({isLoggedIn, transfers}) {
       detail: "Kullanıcı İşlemleri Başarıyla Silindi",
       life: 3000,
     });
-  };
-
-  const leftToolbarTemplate = () => {
-    return (
-      <div className="flex flex-wrap gap-2">
-        <Button
-          label="Sil"
-          icon="pi pi-trash"
-          severity="danger"
-          onClick={confirmDeleteSelected}
-          disabled={!selectedProducts || !selectedProducts.length}
-        />
-      </div>
-    );
   };
 
   const middleToolbarTemplate = () => {
@@ -201,9 +183,8 @@ export default function Transactions({isLoggedIn, transfers}) {
       <div className="card">
         <Toolbar
           className="mb-4"
-          left={leftToolbarTemplate}
           right={rightToolbarTemplate}
-          center={middleToolbarTemplate}
+          left={middleToolbarTemplate}
         ></Toolbar>
 
         <DataTable
@@ -220,7 +201,6 @@ export default function Transactions({isLoggedIn, transfers}) {
           globalFilter={globalFilter}
           header={header}
         >
-          <Column selectionMode="multiple" exportable={false}></Column>
           <Column
             field="paraGonderen"
             header="Para Gönderen"
