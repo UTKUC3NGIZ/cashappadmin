@@ -58,11 +58,11 @@ export default function Transactions() {
       }
       return p;
     });
-  
+
     setProducts(updatedProducts);
     setDeleteProductDialog(false);
     setProduct(emptyProduct);
-  
+
     toast.current.show({
       severity: "success",
       summary: "Başarılı",
@@ -70,7 +70,7 @@ export default function Transactions() {
       life: 3000,
     });
   };
-  
+
   const middleToolbarTemplate = () => {
     return (
       <div className="flex flex-wrap gap-2">
@@ -101,7 +101,7 @@ export default function Transactions() {
 
   const header = (
     <div className="flex flex-wrap gap-2 items-center justify-between">
-      <h4 className="m-0">Kullanıcılar</h4>
+      <h4 className="m-0">Kullanıcı Para Ekleme Paneli</h4>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
@@ -149,7 +149,6 @@ export default function Transactions() {
           globalFilter={globalFilter}
           header={header}
         >
-          <Column selectionMode="multiple" exportable={false}></Column>
           <Column
             field="users"
             header="Kullanıcı"

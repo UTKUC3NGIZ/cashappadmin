@@ -147,7 +147,7 @@ export default function Transactions() {
 
   const header = (
     <div className="flex flex-wrap gap-2 items-center justify-between">
-      <h4 className="m-0">Kullanıcı İşlem Detayları</h4>
+      <h4 className="m-0">Kullanıcı İşlem Detay Paneli</h4>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
