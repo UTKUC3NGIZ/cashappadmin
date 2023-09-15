@@ -117,7 +117,7 @@ export default function Transactions({ isLoggedIn, transfers, token }) {
     return (
       <div className="flex gap-5">
         <div className="flex flex-wrap gap-2">
-          <Link href="/addBalance">
+          <Link href="/AddBalance">
             <Button
               label="Bakiye Dashboard"
               icon="pi pi-money-bill"
