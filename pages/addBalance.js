@@ -17,7 +17,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-export default function AddBalance({ userList, isLoggedIn, token }) {
+export default function AddBalance() {
   let emptyProduct = {
     id: null,
     name: "",
@@ -38,6 +38,34 @@ export default function AddBalance({ userList, isLoggedIn, token }) {
   const toast = useRef(null);
   const dt = useRef(null);
   const [value2, setValue2] = useState(50);
+  const [userList, setUserList] = useState([]);
+  const storedIsLoggedIn =
+    typeof window !== "undefined" ? localStorage.getItem("isLoggedIn") : null;
+  const storedToken =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === "true");
+  const [token, setToken] = useState(storedToken || "");
+  // users data
+  useEffect(() => {
+    if (token) {
+      axios
+        .get("https://mobil-bank-production.up.railway.app/users/all", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setUserList(response.data);
+          setIsLoggedIn(true);
+        })
+        .catch((error) => {
+          console.error("Veri çekme hatası:", error);
+          setIsLoggedIn(false);
+        });
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [token]);
   useEffect(() => {
     async function fetchData() {
       const data = await usersData.getProducts({ userList });
@@ -58,7 +86,7 @@ export default function AddBalance({ userList, isLoggedIn, token }) {
   const addBalance = () => {
     // Calculate the new balance
     const newBalance = product.amount + value2;
-  
+
     // Update the product locally
     const updatedProducts = products.map((p) => {
       if (p.users === product.users) {
@@ -66,43 +94,45 @@ export default function AddBalance({ userList, isLoggedIn, token }) {
       }
       return p;
     });
-  
+
     // Update the product state
     setProducts(updatedProducts);
     setDeleteProductDialog(false);
     setProduct(emptyProduct);
-  
+
     // Make the PUT request with the token
     const userId = product.id; // Replace with the user's ID
     const url = `https://mobil-bank-production.up.railway.app/users/add-money/${userId}?money=${newBalance}`;
-  
+
     axios
       .put(url, {}, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         // Handle the success response
         toast.current.show({
-          severity: 'success',
-          summary: 'Başarılı',
-          detail: 'Bakiye Başarıyla Yüklendi',
+          severity: "success",
+          summary: "Başarılı",
+          detail: "Bakiye Başarıyla Yüklendi",
           life: 3000,
         });
       })
       .catch((error) => {
         // Handle any errors
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
 
   const middleToolbarTemplate = () => {
     return (
-      <div className="flex flex-wrap gap-2">
-        <Link href="/Transactions">
-          <Button
-            label="işlemler Dashboard"
-            icon="pi pi-money-bill"
-            severity="info"
-          />
-        </Link>
+      <div>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/">
+            <Button
+              label="işlemler Dashboard"
+              icon="pi pi-money-bill"
+              severity="info"
+            />
+          </Link>
+        </div>
       </div>
     );
   };

@@ -6,7 +6,6 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import AddBalance from "@/pages/addBalance";
 import Transactions from "@/pages/transactions";
 import Login from "@/pages/login";
 
@@ -15,7 +14,6 @@ export default function Main() {
   const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
   const [token, setToken] = useState(storedToken || "");
   const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === "true");
-  const [userList, setUserList] = useState([]);
   const [transfers, setTransfers] = useState([]);
 
   // local data
@@ -31,27 +29,6 @@ export default function Main() {
     }
   }, [token]);
 
-  // users data
-  useEffect(() => {
-    if (token) {
-      axios
-        .get("https://mobil-bank-production.up.railway.app/users/all", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setUserList(response.data);
-          setIsLoggedIn(true);
-        })
-        .catch((error) => {
-          console.error("Veri çekme hatası:", error);
-          setIsLoggedIn(false);
-        });
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [token]);
   // user transactions data
   useEffect(() => {
     if (token) {
@@ -73,19 +50,11 @@ export default function Main() {
   return (
     <>
       {isLoggedIn ? (
-        <div>
-          <AddBalance
-            userList={userList}
-            isLoggedIn={isLoggedIn}
-            token={token}
-          />
-
-   <Transactions
-            isLoggedIn={isLoggedIn}
-            transfers={transfers}
-            token={token}
-          />
-        </div>
+        <Transactions
+          isLoggedIn={isLoggedIn}
+          transfers={transfers}
+          token={token}
+        />
       ) : (
         <Login setToken={setToken} />
       )}
