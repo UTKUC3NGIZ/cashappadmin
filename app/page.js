@@ -10,8 +10,8 @@ import Transactions from "@/pages/transactions";
 import Login from "@/pages/login";
 
 export default function Main() {
-  const storedIsLoggedIn = typeof window !== "undefined" ? localStorage.getItem("isLoggedIn") : null;
-  const storedToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const storedToken = localStorage.getItem("token");
+  const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
   const [token, setToken] = useState(storedToken || "");
   const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === "true");
   const [transfers, setTransfers] = useState([]);
