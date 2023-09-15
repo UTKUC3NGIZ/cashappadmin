@@ -120,16 +120,32 @@ export default function AddBalance() {
         console.error("Error:", error);
       });
   };
+  // exit
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("isLoggedIn");
+
+  };
 
   const middleToolbarTemplate = () => {
     return (
-      <div>
+      <div className="flex gap-5">
         <div className="flex flex-wrap gap-2">
           <Link href="/">
             <Button
               label="işlemler Dashboard"
               icon="pi pi-money-bill"
               severity="info"
+            />
+          </Link>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/">
+            <Button
+              label="Çıkış"
+              icon="pi pi-sign-out"
+              severity="danger"
+              onClick={handleLogout}
             />
           </Link>
         </div>
@@ -215,7 +231,7 @@ export default function AddBalance() {
             ></Column>
             <Column
               field="amount"
-              header="amount"
+              header="Bakiye"
               sortable
               style={{ minWidth: "16rem" }}
             ></Column>

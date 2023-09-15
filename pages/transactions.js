@@ -80,7 +80,6 @@ export default function Transactions({ isLoggedIn, transfers, token }) {
     dt.current.exportCSV();
   };
   const deleteSelectedProducts = () => {
-
     // Update the product locally
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
@@ -107,17 +106,35 @@ export default function Transactions({ isLoggedIn, transfers, token }) {
         console.error("Error:", error);
       });
   };
+  // exit
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("isLoggedIn");
+    window.location.reload();
+  };
 
   const middleToolbarTemplate = () => {
     return (
-      <div className="flex flex-wrap gap-2">
-        <Link href="/AddBalance">
-          <Button
-            label="Bakiye Dashboard"
-            icon="pi pi-money-bill"
-            severity="info"
-          />
-        </Link>
+      <div className="flex gap-5">
+        <div className="flex flex-wrap gap-2">
+          <Link href="/AddBalance">
+            <Button
+              label="Bakiye Dashboard"
+              icon="pi pi-money-bill"
+              severity="info"
+            />
+          </Link>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/">
+            <Button
+              label="Çıkış"
+              icon="pi pi-sign-out"
+              severity="danger"
+              onClick={handleLogout}
+            />
+          </Link>
+        </div>
       </div>
     );
   };

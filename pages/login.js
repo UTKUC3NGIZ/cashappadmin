@@ -26,7 +26,7 @@ export default function Login({ setToken }) {
         (response) => {
           if (response.data.token) {
             setToken(response.data.token);
-            // navigation.navigate("addBalance");
+            window.location.reload();
           }
         },
 
@@ -83,12 +83,6 @@ export default function Login({ setToken }) {
               setPassword(text.target.value);
             }}
           />
-
-          <div className="flex align-items-center justify-content-end mb-6">
-            <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">
-              Parolamı Unuttum ?
-            </a>
-          </div>
 
           <Button
             label="Giriş Yap"
