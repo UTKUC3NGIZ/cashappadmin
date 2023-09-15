@@ -39,10 +39,9 @@ export default function AddBalance() {
   const dt = useRef(null);
   const [value2, setValue2] = useState(50);
   const [userList, setUserList] = useState([]);
-  const storedIsLoggedIn =
-    typeof window !== "undefined" ? localStorage.getItem("isLoggedIn") : null;
-  const storedToken =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const storedIsLoggedIn = typeof window !== "undefined" ? localStorage.getItem("isLoggedIn") : null;
+  const storedToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  
   const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === "true");
   const [token, setToken] = useState(storedToken || "");
   // users data
