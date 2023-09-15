@@ -24,7 +24,6 @@ export default function Login({ setToken }) {
 
       .then(
         (response) => {
-          localStorage.setItem("userToken", response.data.token);
           if (response.data.token) {
             setToken(response.data.token);
             // navigation.navigate("addBalance");

@@ -11,10 +11,25 @@ import Transactions from "@/pages/transactions";
 import Login from "@/pages/login";
 
 export default function Main() {
-  const [token, setToken] = useState("");
+  const storedToken = localStorage.getItem("token");
+  const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+  const [token, setToken] = useState(storedToken || "");
+  const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn === "true");
   const [userList, setUserList] = useState([]);
   const [transfers, setTransfers] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // local data
+  useEffect(() => {
+    if (token) {
+      // localStorage'a token ve isLoggedIn değerlerini kaydet
+      localStorage.setItem("token", token);
+      localStorage.setItem("isLoggedIn", "true");
+    } else {
+      // Kullanıcı çıkış yaptığında localStorage'dan bu değerleri kaldır
+      localStorage.removeItem("token");
+      localStorage.removeItem("isLoggedIn");
+    }
+  }, [token]);
 
   // users data
   useEffect(() => {
@@ -64,13 +79,12 @@ export default function Main() {
             isLoggedIn={isLoggedIn}
             token={token}
           />
-   <div className="hidden">
+
    <Transactions
             isLoggedIn={isLoggedIn}
             transfers={transfers}
             token={token}
           />
-   </div>
         </div>
       ) : (
         <Login setToken={setToken} />
