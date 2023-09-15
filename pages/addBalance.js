@@ -222,6 +222,8 @@ export default function AddBalance() {
             globalFilter={globalFilter}
             header={header}
             onFilter={() => clearGlobalFilter()} // Clear filter when filtering is done
+            emptyMessage={"Yükleniyor..."}
+
           >
             <Column
               field="users"

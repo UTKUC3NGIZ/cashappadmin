@@ -231,6 +231,7 @@ export default function Transactions({ isLoggedIn, transfers, token }) {
           currentPageReportTemplate="{totalRecords} üründen {first} ile {last} arası gösteriliyor"
           globalFilter={globalFilter}
           header={header}
+          emptyMessage={"Yükleniyor..."}
         >
           <Column
             field="paraGonderen"
