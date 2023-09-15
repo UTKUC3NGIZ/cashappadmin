@@ -8,13 +8,13 @@ import { Toolbar } from "primereact/toolbar";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import Link from "next/link";
-
+import axios from "axios";
 import "../app/globals.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-export default function Transactions({ isLoggedIn, transfers }) {
+export default function Transactions({ isLoggedIn, transfers, token }) {
   let emptyProduct = {
     id: null,
     name: "",
@@ -79,19 +79,33 @@ export default function Transactions({ isLoggedIn, transfers }) {
   const exportCSV = () => {
     dt.current.exportCSV();
   };
-
   const deleteSelectedProducts = () => {
-    let _products = products.filter((val) => !selectedProducts.includes(val));
 
+    // Update the product locally
+    let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
     setDeleteProductsDialog(false);
     setSelectedProducts(null);
-    toast.current.show({
-      severity: "success",
-      summary: "Başarılı",
-      detail: "Kullanıcı İşlemleri Başarıyla Silindi",
-      life: 3000,
-    });
+
+    // Make the PUT request with the token
+    const userId = product.id; // Replace with the user's ID
+    const url = `https://mobil-bank-production.up.railway.app/transfers/${userId}`;
+
+    axios
+      .put(url, {}, { headers: { Authorization: `Bearer ${token}` } })
+      .then((response) => {
+        // Handle the success response
+        toast.current.show({
+          severity: "success",
+          summary: "Başarılı",
+          detail: "Kullanıcı İşlemleri Başarıyla Silindi",
+          life: 3000,
+        });
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.error("Error:", error);
+      });
   };
 
   const middleToolbarTemplate = () => {
@@ -178,7 +192,7 @@ export default function Transactions({ isLoggedIn, transfers }) {
     </React.Fragment>
   );
   return (
-    <div>
+    <div className="">
       <Toast ref={toast} />
       <div className="card">
         <Toolbar

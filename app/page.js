@@ -64,11 +64,13 @@ export default function Main() {
             isLoggedIn={isLoggedIn}
             token={token}
           />
-          <Transactions
+   <div className="hidden">
+   <Transactions
             isLoggedIn={isLoggedIn}
             transfers={transfers}
             token={token}
           />
+   </div>
         </div>
       ) : (
         <Login setToken={setToken} />
